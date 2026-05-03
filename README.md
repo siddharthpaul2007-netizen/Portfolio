@@ -29,6 +29,7 @@ It showcases my skills, projects, and learning journey as a B.Tech CSE student.
 
 ## 📂 Project Structure
 portfolio-website/
+
 |──portfolio.html
 |──images/
 
