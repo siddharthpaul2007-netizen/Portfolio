@@ -6,7 +6,7 @@
     <title>Siddharth Paul | Portfolio</title>
     <link rel=icon href="images/portfolio.jpg">
     <style>
-        :root {  
+        :root {
             --bg: #031715;
             --panel: rgba(7, 38, 42, 0.72);
             --panel-strong: rgba(10, 58, 62, 0.88);
@@ -501,7 +501,7 @@
 
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 14px;
         }
 
@@ -711,8 +711,21 @@
                 display: block;
             }
 
-            .skills-grid, .projects-grid {
+            .projects-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-auto-flow: column;
+                grid-auto-columns: minmax(220px, 1fr);
+                grid-template-columns: none;
+                overflow-x: auto;
+                padding-bottom: 8px;
+                scroll-snap-type: x proximity;
+            }
+
+            .skill {
+                scroll-snap-align: start;
             }
 
             .stats {
@@ -793,7 +806,7 @@
         <section id="skills" class="reveal">
             <div class="section-head">
                 <h2>Skills</h2>
-                <p>I am focused on the fundamentals first: writing structured pages, making them responsive, and adding small interactions that improve the experience.</p>
+                <p>A growing set of programming skills focused on building logic, understanding core concepts, and applying them through practice and projects.</p>
             </div>
             <div class="skills-grid">
                 <article class="skill">
@@ -810,6 +823,21 @@
                     <span>J</span>
                     <h3>JavaScript</h3>
                     <p>DOM basics, simple animations, form behavior, and browser-based interactions.</p>
+                </article>
+                <article class="skill">
+                    <span>C</span>
+                    <h3>C</h3>
+                    <p>Strong foundation in programming concepts like loops, functions, arrays, and pointers.</p>
+                </article>
+                <article class="skill">
+                    <span>Cpp</span>
+                    <h3>C++</h3>
+                    <p></p>Familiar with object-oriented programming and basic problem-solving using C++.</p>
+                </article>
+                <article class="skill">
+                    <span>P</span>
+                    <h3>Python</h3>
+                    <p>Basic knowledge of Python for simple programs and logic building.</p>
                 </article>
             </div>
         </section>
