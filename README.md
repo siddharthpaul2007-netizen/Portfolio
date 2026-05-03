@@ -6,7 +6,7 @@ It showcases my skills, projects, and learning journey as a B.Tech CSE student.
 ---
 
 ## 🚀 Live Website
-👉 https://siddharthpaul2007-netizen.github.io/portfolio-website/
+👉 [https://siddharthpaul2007-netizen.github.io/portfolio-website/](https://siddharthpaul2007-netizen.github.io/Portfolio/)
 
 
 ## 📌 Features
