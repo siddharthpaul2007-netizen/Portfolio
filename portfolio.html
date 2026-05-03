@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siddharth Paul | Portfolio</title>
+    <link rel=icon href="images/portfolio.jpg">
+    <style>
+        :root {
+            --bg: #031715;
+            --panel: rgba(7, 38, 42, 0.72);
+            --panel-strong: rgba(10, 58, 62, 0.88);
+            --text: #f8fbff;
+            --muted: #bad8d6;
+            --accent: #4ff0c7;
+            --accent-two: #f5d76e;
+            --accent-three: #7aa7ff;
+            --line: rgba(151, 255, 230, 0.2);
+            --shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #scene {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: radial-gradient(circle at 14% 18%, rgba(79, 240, 199, 0.25) 0, transparent 31%),
+                        radial-gradient(circle at 82% 24%, rgba(122, 167, 255, 0.2) 0, transparent 29%),
+                        radial-gradient(circle at 58% 84%, rgba(245, 215, 110, 0.13) 0, transparent 31%),
+                        linear-gradient(135deg, #031715 0%, #082b33 48%, #07101f 100%);
+        }
+
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.78), rgba(0,0,0,0.2));
+        }
+
+        .css-stage {
+            position: fixed;
+            top: 6vh;
+            left: 8vw;
+            z-index: 2;
+            width: min(86vw, 1120px);
+            aspect-ratio: 1 / 1;
+            perspective: 900px;
+            pointer-events: none;
+            opacity: 0.58;
+            mix-blend-mode: screen;
+        }
+
+        .three-ready .css-stage {
+            display: none;
+        }
+
+        .css-orbit {
+            position: absolute;
+            inset: 10% 4%;
+            transform-style: preserve-3d;
+            animation: orbitSpin 16s ease-in-out infinite;
+        }
+
+        .css-ring {
+            position: absolute;
+            inset: 9%;
+            border: 1px solid rgba(79, 240, 199, 0.42);
+            border-radius: 50%;
+            box-shadow: 0 0 44px rgba(79, 240, 199, 0.14);
+            transform-style: preserve-3d;
+        }
+
+        .css-ring:nth-child(1) {
+            transform: rotateX(72deg) rotateZ(18deg);
+            animation: ringPulse 3.4s ease-in-out infinite;
+        }
+
+        .css-ring:nth-child(2) {
+            transform: rotateY(68deg) rotateZ(42deg);
+            animation: ringPulse 3.4s ease-in-out 0.6s infinite;
+        }
+
+        .css-ring:nth-child(3) {
+            transform: rotateX(38deg) rotateY(58deg);
+            animation: ringPulse 3.4s ease-in-out 1.2s infinite;
+        }
+
+        .css-cube {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: min(72vw, 820px);
+            height: 160px;
+            transform-style: preserve-3d;
+            transform: translate(-50%, -50%);
+            animation: cubeFloat 7s ease-in-out infinite;
+        }
+
+        .css-cube span {
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 50%;
+            background: linear-gradient(90deg, transparent, rgba(79, 240, 199, 0.26), rgba(122, 167, 255, 0.2), transparent);
+            box-shadow: 0 0 42px rgba(79, 240, 199, 0.18);
+            filter: blur(0.4px);
+        }
+
+        .css-cube span:nth-child(1) { transform: rotateX(64deg) translateZ(28px); }
+        .css-cube span:nth-child(2) { transform: rotateX(74deg) rotateZ(18deg) translateZ(8px); }
+        .css-cube span:nth-child(3) { transform: rotateX(58deg) rotateZ(-16deg) translateZ(-18px); }
+        .css-cube span:nth-child(4) { transform: rotateX(68deg) rotateY(18deg) translateZ(-42px); }
+        .css-cube span:nth-child(5) { transform: rotateX(76deg) rotateY(-20deg) translateZ(46px); }
+        .css-cube span:nth-child(6) { transform: rotateX(54deg) rotateZ(34deg) translateZ(-64px); }
+
+        @keyframes orbitSpin {
+            from {
+                transform: rotateX(62deg) rotateY(0deg) rotateZ(12deg);
+            }
+
+            to {
+                transform: rotateX(62deg) rotateY(360deg) rotateZ(12deg);
+            }
+        }
+
+        @keyframes cubeFloat {
+            0%, 100% {
+                transform: translate(-50%, -50%) rotateX(10deg) rotateY(22deg) rotateZ(-4deg) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -58%) rotateX(22deg) rotateY(44deg) rotateZ(5deg) scale(1.08);
+            }
+        }
+
+        @keyframes ringPulse {
+            0%, 100% {
+                opacity: 0.36;
+            }
+
+            50% {
+                opacity: 0.95;
+            }
+        }
+
+        @keyframes armBuild {
+            0%, 100% {
+                transform: rotate(24deg);
+            }
+
+            50% {
+                transform: rotate(-18deg);
+            }
+        }
+
+        @keyframes projectPulse {
+            0%, 100% {
+                transform: translateX(32px) rotate(45deg) scale(0.94);
+            }
+
+            50% {
+                transform: translateX(32px) rotate(58deg) scale(1.08);
+            }
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            border-bottom: 1px solid var(--line);
+            background: rgba(3, 23, 21, 0.82);
+            backdrop-filter: blur(16px);
+        }
+
+        nav {
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .brand {
+            color: var(--text);
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            letter-spacing: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            font-size: 0.92rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        main {
+            position: relative;
+            z-index: 5;
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 72px 0;
+            opacity: var(--focus, 1);
+            filter: brightness(calc(0.46 + (var(--focus, 1) * 0.54))) saturate(calc(0.54 + (var(--focus, 1) * 0.46)));
+            transition: opacity 260ms ease, filter 260ms ease;
+        }
+
+        .hero {
+            min-height: calc(100vh - 68px);
+            display: grid;
+            grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.72fr);
+            align-items: center;
+            gap: 46px;
+            padding-top: 26px;
+        }
+
+        .eyebrow {
+            margin: 0 0 14px;
+            color: var(--accent-two);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        h1, h2, h3, p {
+            margin-top: 0;
+        }
+
+        h1 {
+            max-width: 780px;
+            margin-bottom: 18px;
+            font-size: clamp(2.2rem, 4.7vw, 4.25rem);
+            line-height: 1.03;
+            font-weight: 900;
+        }
+
+        h2 {
+            margin-bottom: 22px;
+            font-size: clamp(2rem, 4vw, 3.3rem);
+            line-height: 1;
+        }
+
+        h3 {
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .lead {
+            max-width: 640px;
+            margin-bottom: 18px;
+            color: var(--muted);
+            font-size: 1.08rem;
+        }
+
+        .learning-note {
+            max-width: 640px;
+            margin: 0 0 20px;
+            padding: 12px 14px;
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.06);
+            font-size: 0.96rem;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .button {
+            min-height: 46px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 0 18px;
+            color: #1b0714;
+            background: var(--accent);
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 14px 34px rgba(79, 240, 199, 0.24);
+            transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 38px rgba(79, 240, 199, 0.3);
+        }
+
+        .button.secondary {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--line);
+            box-shadow: none;
+        }
+
+        .profile-panel {
+            position: relative;
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+            box-shadow: var(--shadow);
+        }
+
+        .creator-canvas,
+        .creator-fallback {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+        }
+
+        .creator-canvas {
+            position: relative;
+            z-index: 1;
+            background: radial-gradient(circle at 50% 35%, rgba(79, 240, 199, 0.2), rgba(3, 23, 21, 0.34) 58%, rgba(0, 0, 0, 0.18));
+        }
+
+        .creator-fallback {
+            position: absolute;
+            inset: 18px;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 32%, rgba(79, 240, 199, 0.24), rgba(3, 23, 21, 0.68) 62%);
+        }
+
+        .creator-ready .creator-fallback {
+            display: none;
+        }
+
+        .fallback-person {
+            position: absolute;
+            left: 50%;
+            bottom: 18%;
+            width: 116px;
+            height: 220px;
+            transform: translateX(-50%);
+        }
+
+        .fallback-person::before,
+        .fallback-person::after {
+            content: "";
+            position: absolute;
+            box-shadow: 0 0 26px rgba(79, 240, 199, 0.42);
+        }
+
+        .fallback-person::before {
+            top: 0;
+            left: 39px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #f3c1a3;
+        }
+
+        .fallback-person::after {
+            top: 48px;
+            left: 28px;
+            width: 60px;
+            height: 92px;
+            border-radius: 18px 18px 8px 8px;
+            background: var(--accent);
+        }
+
+        .fallback-arm {
+            position: absolute;
+            top: 76px;
+            left: 68px;
+            width: 86px;
+            height: 12px;
+            border-radius: 999px;
+            background: var(--accent-two);
+            transform-origin: 6px 6px;
+            animation: armBuild 1.45s ease-in-out infinite;
+        }
+
+        .fallback-project {
+            position: absolute;
+            left: 50%;
+            bottom: 18%;
+            width: 74px;
+            height: 74px;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            background: rgba(122, 167, 255, 0.16);
+            transform: translateX(32px) rotate(45deg);
+            box-shadow: 0 0 38px rgba(122, 167, 255, 0.5);
+            animation: projectPulse 2s ease-in-out infinite;
+        }
+
+        .profile-panel::after {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            right: -18px;
+            bottom: -18px;
+            border-right: 4px solid var(--accent-two);
+            border-bottom: 4px solid var(--accent-two);
+            border-radius: 8px;
+        }
+
+        .profile-panel::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            z-index: -1;
+            border-radius: 8px;
+            background: linear-gradient(120deg, rgba(79, 240, 199, 0.85), rgba(245, 215, 110, 0.72), rgba(122, 167, 255, 0.72));
+            filter: blur(22px);
+            opacity: 0.24;
+            animation: profileGlow 4s ease-in-out infinite alternate;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .stat, .skill, .project, .contact-form {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+            backdrop-filter: blur(16px);
+        }
+
+        .stat {
+            min-height: 88px;
+            padding: 16px;
+        }
+
+        .stat strong {
+            display: block;
+            color: var(--accent);
+            font-size: 1.55rem;
+            line-height: 1;
+        }
+
+        .stat span {
+            color: var(--muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 28px;
+            align-items: end;
+            margin-bottom: 28px;
+        }
+
+        .section-head p {
+            max-width: 520px;
+            margin-bottom: 0;
+            color: var(--muted);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .skill {
+            min-height: 138px;
+            padding: 18px;
+            transition: transform 180ms ease, background 180ms ease;
+        }
+
+        .skill:hover, .project:hover {
+            transform: translateY(-4px);
+            background: var(--panel-strong);
+        }
+
+        @keyframes profileGlow {
+            from {
+                transform: rotate(0deg) scale(0.96);
+            }
+
+            to {
+                transform: rotate(4deg) scale(1.04);
+            }
+        }
+
+        .skill span {
+            display: inline-grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            margin-bottom: 14px;
+            border-radius: 8px;
+            color: #1b0714;
+            background: var(--accent-two);
+            font-weight: 900;
+        }
+
+        .skill p, .project p {
+            margin-bottom: 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .project {
+            min-height: 230px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 180ms ease, background 180ms ease;
+        }
+
+        .project-list {
+            margin: 16px 0 0;
+            padding-left: 18px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .project-list li + li {
+            margin-top: 6px;
+        }
+
+        .project-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .project-icon {
+            display: inline-grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            background: rgba(79, 240, 199, 0.16);
+            color: var(--accent);
+            font-weight: 900;
+        }
+
+        .tag {
+            color: var(--accent-two);
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .contact-copy p {
+            color: var(--muted);
+        }
+
+        .contact-form {
+            padding: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text);
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            margin-bottom: 16px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 12px 13px;
+            color: var(--text);
+            background: rgba(0, 0, 0, 0.18);
+            font: inherit;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus, textarea:focus {
+            outline: 2px solid rgba(79, 240, 199, 0.38);
+            border-color: var(--accent);
+        }
+
+        .submit {
+            width: 100%;
+            min-height: 48px;
+            border: 0;
+            border-radius: 8px;
+            color: #1b0714;
+            background: var(--accent);
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        footer {
+            position: relative;
+            z-index: 5;
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 28px 0 42px;
+            color: var(--muted);
+            border-top: 1px solid var(--line);
+            text-align: center;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 700ms ease, transform 700ms ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        main section.reveal.visible {
+            opacity: var(--focus, 1);
+        }
+
+        section.in-spotlight {
+            --focus: 1;
+        }
+
+        @media (max-width: 820px) {
+            nav {
+                align-items: flex-start;
+                flex-direction: column;
+                justify-content: center;
+                padding: 14px 0;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+                gap: 8px;
+            }
+
+            .hero, .contact-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: auto;
+                padding-top: 48px;
+            }
+
+            .profile-panel {
+                max-width: 420px;
+            }
+
+            .section-head {
+                display: block;
+            }
+
+            .skills-grid, .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="scene" aria-hidden="true"></canvas>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="css-stage" aria-hidden="true">
+        <div class="css-orbit">
+            <div class="css-ring"></div>
+            <div class="css-ring"></div>
+            <div class="css-ring"></div>
+            <div class="css-cube">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <nav>
+            <a class="brand" href="#top">Siddharth Paul</a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="top">
+        <section class="hero" id="about">
+            <div class="reveal visible">
+                <p class="eyebrow">B.Tech Student | Front-End Learner</p>
+                <h1>Building ideas into simple, useful web experiences.</h1>
+                <p class="lead">Hi, I am Siddharth Paul, a first-year B.Tech student from Noida. I am building my foundation in web development through small projects, clean layouts, and interactive browser experiences.</p>
+                <p class="learning-note">Currently learning HTML, CSS, and JavaScript. Built a responsive portfolio and working on interactive web apps.</p>
+                <div class="actions">
+                    <a class="button" href="#projects">View Projects</a>
+                    <a class="button secondary" href="#contact">Contact Me</a>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <strong>01</strong>
+                        <span>Year of B.Tech</span>
+                    </div>
+                    <div class="stat">
+                        <strong>03</strong>
+                        <span>Skills in Progress</span>
+                    </div>
+                    <div class="stat">
+                        <strong>Many</strong>
+                        <span>Curiosity Level</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-panel reveal visible" id="creatorPanel">
+                <canvas class="creator-canvas" id="creatorScene" aria-label="3D animation of a man creating a glowing project"></canvas>
+                <div class="creator-fallback" aria-hidden="true">
+                    <div class="fallback-person">
+                        <span class="fallback-arm"></span>
+                    </div>
+                    <div class="fallback-project"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="reveal">
+            <div class="section-head">
+                <h2>Skills</h2>
+                <p>I am focused on the fundamentals first: writing structured pages, making them responsive, and adding small interactions that improve the experience.</p>
+            </div>
+            <div class="skills-grid">
+                <article class="skill">
+                    <span>H</span>
+                    <h3>HTML</h3>
+                    <p>Page structure, forms, links, images, sections, and clean content organization.</p>
+                </article>
+                <article class="skill">
+                    <span>C</span>
+                    <h3>CSS</h3>
+                    <p>Responsive layouts, spacing, color systems, hover states, and readable UI design.</p>
+                </article>
+                <article class="skill">
+                    <span>J</span>
+                    <h3>JavaScript</h3>
+                    <p>DOM basics, simple animations, form behavior, and browser-based interactions.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="projects" class="reveal">
+            <div class="section-head">
+                <h2>Projects</h2>
+                <p>Small projects that show what I am practicing right now, with each one focused on a clear web development skill.</p>
+            </div>
+            <div class="projects-grid">
+                <article class="project">
+                    <div>
+                        <div class="project-top">
+                            <span class="project-icon">01</span>
+                            <span class="tag">HTML + CSS</span>
+                        </div>
+                        <h3>Responsive Portfolio</h3>
+                        <p>A personal portfolio page designed to present my profile, skills, and current learning path clearly.</p>
+                        <ul class="project-list">
+                            <li>Responsive layout for desktop and mobile</li>
+                            <li>Clean sections for skills, projects, and contact</li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="project">
+                    <div>
+                        <div class="project-top">
+                            <span class="project-icon">02</span>
+                            <span class="tag">HTML Forms</span>
+                        </div>
+                        <h3>Contact Form UI</h3>
+                        <p>A simple contact section built to practice labels, inputs, validation, and readable form styling.</p>
+                        <ul class="project-list">
+                            <li>Uses required fields and input types</li>
+                            <li>Ready to connect with a backend later</li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="project">
+                    <div>
+                        <div class="project-top">
+                            <span class="project-icon">03</span>
+                            <span class="tag">Three.js</span>
+                        </div>
+                        <h3>Interactive 3D Portfolio Scene</h3>
+                        <p>An animated visual scene that adds personality while still keeping the portfolio content readable.</p>
+                        <ul class="project-list">
+                            <li>Pointer-responsive animation</li>
+                            <li>CSS fallback if the 3D library does not load</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="contact" class="reveal">
+            <div class="contact-layout">
+                <div class="contact-copy">
+                    <p class="eyebrow">Contact</p>
+                    <h2>Let's connect.</h2>
+                    <p>I am open to feedback, beginner-friendly project ideas, and opportunities to keep improving my web development skills.</p>
+                </div>
+                <form class="contact-form" action="index.html" method="post">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your name" minlength="2" required>
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Write your message here" required></textarea>
+
+                    <button class="submit" type="submit">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        (c) 2026 Siddharth Paul. Designed with HTML, CSS, JavaScript, and Three.js.
+    </footer>
+
+    <script src="https://unpkg.com/three@0.162.0/build/three.min.js"></script>
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+
+        const spotlightSections = [...document.querySelectorAll("main section")];
+
+        function updateSpotlight() {
+            const viewportCenter = window.innerHeight * 0.5;
+            let activeSection = spotlightSections[0];
+            let activeDistance = Number.POSITIVE_INFINITY;
+
+            spotlightSections.forEach((section) => {
+                const rect = section.getBoundingClientRect();
+                const sectionCenter = rect.top + rect.height * 0.5;
+                const distance = Math.abs(sectionCenter - viewportCenter);
+                const range = Math.max(window.innerHeight * 0.78, rect.height * 0.45);
+                const focus = Math.max(0.22, 1 - distance / range);
+
+                section.style.setProperty("--focus", focus.toFixed(3));
+
+                if (distance < activeDistance) {
+                    activeDistance = distance;
+                    activeSection = section;
+                }
+            });
+
+            spotlightSections.forEach((section) => {
+                section.classList.toggle("in-spotlight", section === activeSection);
+                if (section === activeSection) {
+                    section.style.setProperty("--focus", "1");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", updateSpotlight, { passive: true });
+        window.addEventListener("resize", updateSpotlight);
+        updateSpotlight();
+
+        if (window.THREE) {
+            document.body.classList.add("three-ready");
+            const canvas = document.querySelector("#scene");
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+            const pointer = { x: 0, y: 0 };
+
+            camera.position.set(0, 0, 8);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            const group = new THREE.Group();
+            const orbitGroup = new THREE.Group();
+            const auroraGroup = new THREE.Group();
+            scene.add(group);
+            scene.add(orbitGroup);
+            scene.add(auroraGroup);
+
+            const geometry = new THREE.IcosahedronGeometry(1.85, 2);
+            const material = new THREE.MeshStandardMaterial({
+                color: 0x4ff0c7,
+                roughness: 0.36,
+                metalness: 0.42,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.32
+            });
+            const core = new THREE.Mesh(geometry, material);
+            group.add(core);
+
+            const innerCore = new THREE.Mesh(
+                new THREE.DodecahedronGeometry(1.08, 1),
+                new THREE.MeshPhysicalMaterial({
+                    color: 0x7aa7ff,
+                    roughness: 0.22,
+                    metalness: 0.18,
+                    transmission: 0.16,
+                    thickness: 0.8,
+                    transparent: true,
+                    opacity: 0.72
+                })
+            );
+            group.add(innerCore);
+
+            const ringMaterial = new THREE.MeshStandardMaterial({
+                color: 0xf5d76e,
+                roughness: 0.48,
+                metalness: 0.2,
+                transparent: true,
+                opacity: 0.72
+            });
+            const rings = [];
+
+            for (let i = 0; i < 3; i++) {
+                const ring = new THREE.Mesh(
+                    new THREE.TorusGeometry(2.55 + i * 0.38, 0.012, 16, 120),
+                    ringMaterial
+                );
+                ring.rotation.x = Math.PI / 2 + i * 0.72;
+                ring.rotation.y = i * 0.42;
+                group.add(ring);
+                rings.push(ring);
+            }
+
+            function createAuroraTexture(primary, secondary) {
+                const textureCanvas = document.createElement("canvas");
+                textureCanvas.width = 512;
+                textureCanvas.height = 128;
+                const context = textureCanvas.getContext("2d");
+                const gradient = context.createLinearGradient(0, 0, textureCanvas.width, 0);
+                gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
+                gradient.addColorStop(0.2, primary);
+                gradient.addColorStop(0.5, secondary);
+                gradient.addColorStop(0.8, primary);
+                gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+                context.fillStyle = gradient;
+                context.fillRect(0, 0, textureCanvas.width, textureCanvas.height);
+
+                const verticalFade = context.createLinearGradient(0, 0, 0, textureCanvas.height);
+                verticalFade.addColorStop(0, "rgba(0, 0, 0, 0)");
+                verticalFade.addColorStop(0.5, "rgba(255, 255, 255, 0.9)");
+                verticalFade.addColorStop(1, "rgba(0, 0, 0, 0)");
+                context.globalCompositeOperation = "destination-in";
+                context.fillStyle = verticalFade;
+                context.fillRect(0, 0, textureCanvas.width, textureCanvas.height);
+
+                const texture = new THREE.CanvasTexture(textureCanvas);
+                texture.needsUpdate = true;
+                return texture;
+            }
+
+            const auroraBands = [];
+            const auroraPalettes = [
+                ["rgba(79, 240, 199, 0.72)", "rgba(122, 167, 255, 0.42)"],
+                ["rgba(122, 167, 255, 0.58)", "rgba(79, 240, 199, 0.34)"],
+                ["rgba(245, 215, 110, 0.3)", "rgba(79, 240, 199, 0.46)"]
+            ];
+
+            auroraPalettes.forEach((palette, index) => {
+                const bandGeometry = new THREE.PlaneGeometry(8.4, 1.15, 96, 10);
+                const band = new THREE.Mesh(
+                    bandGeometry,
+                    new THREE.MeshBasicMaterial({
+                        map: createAuroraTexture(palette[0], palette[1]),
+                        transparent: true,
+                        opacity: 0.5 - index * 0.08,
+                        depthWrite: false,
+                        blending: THREE.AdditiveBlending,
+                        side: THREE.DoubleSide
+                    })
+                );
+                band.position.set(1.8, 0.7 - index * 0.52, -1.2 - index * 0.32);
+                band.rotation.set(-0.72 + index * 0.18, -0.22 + index * 0.15, -0.18 + index * 0.12);
+                band.userData = { phase: index * 1.7, lift: 0.25 + index * 0.12 };
+                auroraGroup.add(band);
+                auroraBands.push(band);
+            });
+
+            const orbitMaterial = new THREE.MeshStandardMaterial({
+                color: 0xf7fbff,
+                roughness: 0.28,
+                metalness: 0.35,
+                emissive: 0x082b33,
+                emissiveIntensity: 0.5
+            });
+            const orbiters = [];
+            const orbiterGeometries = [
+                new THREE.TetrahedronGeometry(0.18, 0),
+                new THREE.OctahedronGeometry(0.16, 0),
+                new THREE.BoxGeometry(0.24, 0.24, 0.24)
+            ];
+
+            for (let i = 0; i < 10; i++) {
+                const orbiter = new THREE.Mesh(orbiterGeometries[i % orbiterGeometries.length], orbitMaterial);
+                const angle = (i / 10) * Math.PI * 2;
+                orbiter.userData = {
+                    angle,
+                    speed: 0.28 + i * 0.025,
+                    radius: 3.1 + (i % 3) * 0.45,
+                    height: (i % 2 === 0 ? 1 : -1) * (0.45 + (i % 4) * 0.12)
+                };
+                orbitGroup.add(orbiter);
+                orbiters.push(orbiter);
+            }
+
+            const particles = new THREE.BufferGeometry();
+            const particleCount = 420;
+            const positions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 18;
+                positions[i + 1] = (Math.random() - 0.5) * 12;
+                positions[i + 2] = (Math.random() - 0.5) * 10;
+            }
+            particles.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+            const particleSystem = new THREE.Points(
+                particles,
+                new THREE.PointsMaterial({ color: 0x9fffe6, size: 0.02, transparent: true, opacity: 0.62 })
+            );
+            scene.add(particleSystem);
+
+            const wave = new THREE.Mesh(
+                new THREE.TorusKnotGeometry(1.3, 0.018, 180, 12, 2, 5),
+                new THREE.MeshBasicMaterial({ color: 0x7aa7ff, transparent: true, opacity: 0.42 })
+            );
+            group.add(wave);
+
+            scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+            const keyLight = new THREE.PointLight(0x4ff0c7, 2.4, 18);
+            keyLight.position.set(4, 5, 6);
+            scene.add(keyLight);
+            const warmLight = new THREE.PointLight(0xf5d76e, 1.5, 16);
+            warmLight.position.set(-4, -2, 5);
+            scene.add(warmLight);
+
+            const creatorCanvas = document.querySelector("#creatorScene");
+            const creatorPanel = document.querySelector("#creatorPanel");
+            const creatorRenderer = new THREE.WebGLRenderer({ canvas: creatorCanvas, antialias: true, alpha: true });
+            const creatorScene = new THREE.Scene();
+            const creatorCamera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+            const creatorRoot = new THREE.Group();
+            const armPivot = new THREE.Group();
+            const buildObject = new THREE.Group();
+            const sparks = [];
+
+            creatorPanel.classList.add("creator-ready");
+            creatorCamera.position.set(0, 1.3, 6.2);
+            creatorCamera.lookAt(0, 0.8, 0);
+            creatorScene.add(creatorRoot);
+            creatorScene.add(new THREE.AmbientLight(0xffffff, 0.72));
+
+            const creatorKey = new THREE.PointLight(0x4ff0c7, 3, 12);
+            creatorKey.position.set(2.8, 4.2, 3.2);
+            creatorScene.add(creatorKey);
+            const creatorWarm = new THREE.PointLight(0xf5d76e, 2.2, 10);
+            creatorWarm.position.set(-2.4, 1.8, 2.8);
+            creatorScene.add(creatorWarm);
+
+            const skin = new THREE.MeshStandardMaterial({ color: 0xf3c1a3, roughness: 0.48 });
+            const shirt = new THREE.MeshStandardMaterial({ color: 0x4ff0c7, roughness: 0.44, metalness: 0.08 });
+            const dark = new THREE.MeshStandardMaterial({ color: 0x251025, roughness: 0.62 });
+            const amber = new THREE.MeshStandardMaterial({ color: 0xf5d76e, emissive: 0x4a3b08, emissiveIntensity: 0.32 });
+            const glow = new THREE.MeshStandardMaterial({ color: 0x7aa7ff, emissive: 0x7aa7ff, emissiveIntensity: 0.8, transparent: true, opacity: 0.78 });
+            const deskMat = new THREE.MeshStandardMaterial({ color: 0x0b3436, roughness: 0.5, metalness: 0.12 });
+
+            const head = new THREE.Mesh(new THREE.SphereGeometry(0.34, 32, 24), skin);
+            head.position.set(-0.55, 1.64, 0);
+            creatorRoot.add(head);
+
+            const hair = new THREE.Mesh(new THREE.SphereGeometry(0.36, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.55), dark);
+            hair.position.set(-0.55, 1.78, 0);
+            hair.rotation.x = -0.35;
+            creatorRoot.add(hair);
+
+            const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.34, 0.78, 8, 24), shirt);
+            body.position.set(-0.55, 0.85, 0);
+            creatorRoot.add(body);
+
+            const leftArm = new THREE.Mesh(new THREE.CapsuleGeometry(0.08, 0.82, 6, 16), skin);
+            leftArm.position.set(-0.98, 0.86, 0.04);
+            leftArm.rotation.z = -0.45;
+            creatorRoot.add(leftArm);
+
+            armPivot.position.set(-0.24, 1.15, 0.04);
+            const rightArm = new THREE.Mesh(new THREE.CapsuleGeometry(0.08, 0.92, 6, 16), skin);
+            rightArm.position.set(0.38, -0.18, 0);
+            rightArm.rotation.z = Math.PI / 2.8;
+            const tool = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.42, 14), amber);
+            tool.position.set(0.86, -0.42, 0);
+            tool.rotation.z = Math.PI / 2;
+            armPivot.add(rightArm, tool);
+            creatorRoot.add(armPivot);
+
+            const legOne = new THREE.Mesh(new THREE.CapsuleGeometry(0.1, 0.78, 6, 16), dark);
+            legOne.position.set(-0.72, 0.0, 0);
+            legOne.rotation.z = 0.18;
+            const legTwo = legOne.clone();
+            legTwo.position.x = -0.38;
+            legTwo.rotation.z = -0.16;
+            creatorRoot.add(legOne, legTwo);
+
+            const desk = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.16, 1.25), deskMat);
+            desk.position.set(0.25, 0.12, 0);
+            creatorRoot.add(desk);
+
+            const projectCore = new THREE.Mesh(new THREE.IcosahedronGeometry(0.44, 1), glow);
+            buildObject.add(projectCore);
+            const projectRing = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.012, 12, 96), amber);
+            projectRing.rotation.x = Math.PI / 2;
+            buildObject.add(projectRing);
+            buildObject.position.set(0.88, 0.88, 0);
+            creatorRoot.add(buildObject);
+
+            for (let i = 0; i < 24; i++) {
+                const spark = new THREE.Mesh(new THREE.SphereGeometry(0.025, 10, 10), amber);
+                spark.userData = {
+                    angle: Math.random() * Math.PI * 2,
+                    radius: 0.38 + Math.random() * 0.56,
+                    speed: 0.8 + Math.random() * 1.6,
+                    height: -0.24 + Math.random() * 0.56
+                };
+                buildObject.add(spark);
+                sparks.push(spark);
+            }
+
+            function resizeScene() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                group.position.x = window.innerWidth > 820 ? 2.65 : 1.2;
+                group.position.y = window.innerWidth > 820 ? -0.2 : -0.7;
+                orbitGroup.position.copy(group.position);
+                auroraGroup.position.x = window.innerWidth > 820 ? 1.8 : 0.6;
+                auroraGroup.position.y = window.innerWidth > 820 ? 0.2 : -0.2;
+
+                const creatorSize = creatorCanvas.clientWidth;
+                creatorCamera.aspect = 1;
+                creatorCamera.updateProjectionMatrix();
+                creatorRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                creatorRenderer.setSize(creatorSize, creatorSize, false);
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const time = performance.now() * 0.001;
+                const scrollProgress = Math.min(window.scrollY / Math.max(document.body.scrollHeight - window.innerHeight, 1), 1);
+                group.rotation.x = time * 0.22 + pointer.y * 0.25 + scrollProgress * 0.7;
+                group.rotation.y = time * 0.34 + pointer.x * 0.35 + scrollProgress * 1.2;
+                group.rotation.z = Math.sin(time * 0.5) * 0.15;
+                group.scale.setScalar(0.82 + Math.sin(time * 0.7) * 0.025);
+                innerCore.rotation.x = -time * 0.44;
+                innerCore.rotation.y = time * 0.58;
+                innerCore.scale.setScalar(1 + Math.sin(time * 1.8) * 0.045);
+                wave.rotation.x = time * 0.52;
+                wave.rotation.y = -time * 0.38;
+                wave.scale.setScalar(1.2 + Math.sin(time * 1.4) * 0.1);
+                rings.forEach((ring, index) => {
+                    ring.rotation.x += 0.0025 + index * 0.001;
+                    ring.rotation.y -= 0.003 + index * 0.0012;
+                    ring.scale.setScalar(1 + Math.sin(time * 1.35 + index) * 0.025);
+                });
+                orbiters.forEach((orbiter, index) => {
+                    const data = orbiter.userData;
+                    const angle = data.angle + time * data.speed;
+                    orbiter.position.set(
+                        Math.cos(angle) * data.radius,
+                        Math.sin(angle * 1.7) * data.height,
+                        Math.sin(angle) * data.radius
+                    );
+                    orbiter.rotation.x = time * (0.8 + index * 0.05);
+                    orbiter.rotation.y = time * (0.55 + index * 0.04);
+                });
+                orbitGroup.rotation.y = -time * 0.12 + pointer.x * 0.18;
+                orbitGroup.rotation.x = pointer.y * 0.12;
+                auroraGroup.rotation.y = pointer.x * 0.08 + scrollProgress * 0.28;
+                auroraGroup.rotation.x = pointer.y * 0.04;
+                auroraBands.forEach((band, bandIndex) => {
+                    const positions = band.geometry.attributes.position;
+                    const phase = band.userData.phase;
+
+                    for (let i = 0; i < positions.count; i++) {
+                        const x = positions.getX(i);
+                        const y = positions.getY(i);
+                        const ripple = Math.sin(x * 1.45 + time * (0.9 + bandIndex * 0.15) + phase) * 0.16;
+                        const fineRipple = Math.cos(x * 3.2 + time * 1.4 + phase) * 0.045;
+                        positions.setZ(i, ripple + fineRipple + Math.sin(y * 5 + time + phase) * 0.02);
+                    }
+
+                    positions.needsUpdate = true;
+                    band.position.y = 0.7 - bandIndex * 0.52 + Math.sin(time * 0.55 + phase) * band.userData.lift;
+                    band.rotation.z = -0.18 + bandIndex * 0.12 + Math.sin(time * 0.36 + phase) * 0.08;
+                    band.material.opacity = 0.36 + Math.sin(time * 0.8 + phase) * 0.08;
+                });
+                particleSystem.material.size = 0.016 + Math.sin(time * 2) * 0.004;
+                particleSystem.rotation.y = time * 0.045;
+                particleSystem.rotation.x = Math.sin(time * 0.16) * 0.08;
+                renderer.render(scene, camera);
+
+                creatorRoot.rotation.y = Math.sin(time * 0.45) * 0.15 + pointer.x * 0.08;
+                head.rotation.y = Math.sin(time * 1.1) * 0.12;
+                armPivot.rotation.z = Math.sin(time * 4.4) * 0.32 - 0.22;
+                tool.material.emissiveIntensity = 0.35 + Math.sin(time * 8) * 0.2;
+                buildObject.rotation.y = time * 0.72;
+                buildObject.rotation.x = Math.sin(time * 0.9) * 0.18;
+                buildObject.scale.setScalar(1 + Math.sin(time * 2.2) * 0.045);
+                projectRing.rotation.z = time * 1.9;
+                sparks.forEach((spark, index) => {
+                    const data = spark.userData;
+                    const angle = data.angle + time * data.speed;
+                    spark.position.set(
+                        Math.cos(angle) * data.radius,
+                        data.height + Math.sin(time * 2.4 + index) * 0.08,
+                        Math.sin(angle) * data.radius
+                    );
+                    spark.scale.setScalar(0.75 + Math.sin(time * 5 + index) * 0.28);
+                });
+                creatorRenderer.render(creatorScene, creatorCamera);
+            }
+
+            window.addEventListener("resize", resizeScene);
+            window.addEventListener("pointermove", (event) => {
+                pointer.x = (event.clientX / window.innerWidth - 0.5) * 2;
+                pointer.y = -(event.clientY / window.innerHeight - 0.5) * 2;
+            });
+
+            resizeScene();
+            animate();
+        }
+    </script>
+</body>
+</html>
