@@ -1,0 +1,58 @@
+@font-face{
+font-family: inter;
+src: url(fonts/GoogleSansFlex-VariableFont_GRAD\,ROND\,opsz\,slnt\,wdth\,wght.ttf) format("truetype");
+}
+h1{
+font-family: inter;
+}
+#p1 {
+    transition: 0.3s;
+}
+#p1:hover {
+    text-shadow:
+        0 0 10px #7aa7ff,
+        0 0 20px #ff7ae4,
+        0 0 30px  #fefefe;
+}
+#box0{
+    padding: 20px;
+    color: #ff7ae4;
+    box-shadow: 5px 6px 0px #7aa7ff;
+    background-color: #0a1def;
+    border-radius: 3px;
+    border: 3pt solid #e7f806;
+    width: 40%;
+    overflow: auto;
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+}
+img{
+    height: 60px;
+    width: 75px;
+    float: right;
+}
+a{
+    color: #e7f806;
+}
+#box1{
+    display: inline-block;
+    padding: 20px;
+    color: #ff7ae4;
+    box-shadow: 5px 6px 0px #7aa7ff;
+    background-color: #0a1def;
+    border-radius: 3px;
+    border: 3pt solid #e7f806;
+    width: 40%;
+    position: absolute  ;
+    right: 0px;
+}
+*{
+    box-sizing: border-box;
+}
+body{
+    background-image: url(images/portfolio.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+background-size: cover;
+}
